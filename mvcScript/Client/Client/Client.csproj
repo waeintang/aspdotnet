@@ -160,7 +160,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ClientContactsController.cs" />
     <Compile Include="Controllers\ClientDataController.cs" />
+    <Compile Include="Controllers\ClientInformationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -253,6 +255,16 @@
     <Content Include="Views\ClientData\Details.cshtml" />
     <Content Include="Views\ClientData\Edit.cshtml" />
     <Content Include="Views\ClientData\Index.cshtml" />
+    <Content Include="Views\ClientInformations\Create.cshtml" />
+    <Content Include="Views\ClientInformations\Delete.cshtml" />
+    <Content Include="Views\ClientInformations\Details.cshtml" />
+    <Content Include="Views\ClientInformations\Edit.cshtml" />
+    <Content Include="Views\ClientInformations\Index.cshtml" />
+    <Content Include="Views\ClientContacts\Create.cshtml" />
+    <Content Include="Views\ClientContacts\Delete.cshtml" />
+    <Content Include="Views\ClientContacts\Details.cshtml" />
+    <Content Include="Views\ClientContacts\Edit.cshtml" />
+    <Content Include="Views\ClientContacts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
