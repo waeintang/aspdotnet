@@ -21,6 +21,7 @@ namespace Client.Models
         public string ClientEmail { get; set; }
         public string ClientMobile { get; set; }
         public string ClientPhone { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual ClientData ClientData { get; set; }
     }

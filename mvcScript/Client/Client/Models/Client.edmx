@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ClientModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ClientModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ClientContact">
           <Key>
             <PropertyRef Name="Id" />
@@ -16,6 +16,7 @@
           <Property Name="ClientEmail" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="ClientMobile" Type="nvarchar" MaxLength="50" />
           <Property Name="ClientPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientData">
           <Key>
@@ -28,6 +29,7 @@
           <Property Name="Fax" Type="nvarchar" MaxLength="50" />
           <Property Name="ContactAddress" Type="nvarchar" MaxLength="100" />
           <Property Name="Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientInformation">
           <Key>
@@ -40,6 +42,7 @@
           <Property Name="BranchBankCode" Type="int" />
           <Property Name="AccountName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="AccountNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <!--產生期間發現錯誤:
 警告 6002: 資料表/檢視 'Client.dbo.ViewContact' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
@@ -98,8 +101,7 @@
             <End Role="ClientContact" EntitySet="ClientContact" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClientModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -115,6 +117,7 @@
           <Property Name="ClientMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ClientPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientContact" ToRole="ClientData" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientData">
           <Key>
@@ -129,6 +132,7 @@
           <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ClientContact" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientData" ToRole="ClientContact" />
           <NavigationProperty Name="ClientInformation" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientData" ToRole="ClientInformation" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientInformation">
           <Key>
@@ -142,6 +146,7 @@
           <Property Name="AccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientInformation" ToRole="ClientData" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ViewContact">
           <Key>
@@ -200,6 +205,7 @@
           <EntitySetMapping Name="ClientContact">
             <EntityTypeMapping TypeName="ClientModel.ClientContact">
               <MappingFragment StoreEntitySet="ClientContact">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="Occupation" ColumnName="Occupation" />
@@ -213,6 +219,7 @@
           <EntitySetMapping Name="ClientData">
             <EntityTypeMapping TypeName="ClientModel.ClientData">
               <MappingFragment StoreEntitySet="ClientData">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClientName" ColumnName="ClientName" />
                 <ScalarProperty Name="EINNumber" ColumnName="EINNumber" />
@@ -226,6 +233,7 @@
           <EntitySetMapping Name="ClientInformation">
             <EntityTypeMapping TypeName="ClientModel.ClientInformation">
               <MappingFragment StoreEntitySet="ClientInformation">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />

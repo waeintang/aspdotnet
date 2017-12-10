@@ -12,6 +12,7 @@
     <Property Name="ClientMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ClientPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientContact" ToRole="ClientData" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="ClientData">
     <Key>
@@ -26,6 +27,7 @@
     <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="ClientContact" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientData" ToRole="ClientContact" />
     <NavigationProperty Name="ClientInformation" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientData" ToRole="ClientInformation" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="ClientInformation">
     <Key>
@@ -39,6 +41,7 @@
     <Property Name="AccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientInformation" ToRole="ClientData" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="ViewContact">
     <Key>

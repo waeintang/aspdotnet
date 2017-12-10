@@ -160,8 +160,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ClientContactEFController.cs" />
     <Compile Include="Controllers\ClientContactsController.cs" />
     <Compile Include="Controllers\ClientDataController.cs" />
+    <Compile Include="Controllers\ClientDataEFController.cs" />
+    <Compile Include="Controllers\ClientInformationEFController.cs" />
     <Compile Include="Controllers\ClientInformationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -185,16 +188,36 @@
     <Compile Include="Models\ClientContact.cs">
       <DependentUpon>Client.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientContact.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ClientData.cs">
       <DependentUpon>Client.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ClientData.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ClientInformation.cs">
       <DependentUpon>Client.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientInformation.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EFGeneratePartialClass.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewContact.cs">
       <DependentUpon>Client.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewContact.Partial.cs">
+      <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ClientContactListVM.cs" />
+    <Compile Include="ViewModels\ClientDataListVM.cs" />
+    <Compile Include="ViewModels\ClientInformationListVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -212,6 +235,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Client.edmx</DependentUpon>
       <LastGenOutput>Client.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EFGeneratePartialClass.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EFGeneratePartialClass.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -265,6 +292,21 @@
     <Content Include="Views\ClientContacts\Details.cshtml" />
     <Content Include="Views\ClientContacts\Edit.cshtml" />
     <Content Include="Views\ClientContacts\Index.cshtml" />
+    <Content Include="Views\ClientData\List.cshtml" />
+    <Content Include="Views\ClientContacts\List.cshtml" />
+    <Content Include="Views\ClientInformations\List.cshtml" />
+    <Content Include="Views\ClientDataEF\Index.cshtml" />
+    <Content Include="Views\ClientContactEF\Index.cshtml" />
+    <Content Include="Views\ClientInformationEF\Index.cshtml" />
+    <Content Include="Views\ClientDataEF\Create.cshtml" />
+    <Content Include="Views\ClientDataEF\Edit.cshtml" />
+    <Content Include="Views\ClientDataEF\Details.cshtml" />
+    <Content Include="Views\ClientContactEF\Create.cshtml" />
+    <Content Include="Views\ClientContactEF\Edit.cshtml" />
+    <Content Include="Views\ClientContactEF\Details.cshtml" />
+    <Content Include="Views\ClientInformationEF\Create.cshtml" />
+    <Content Include="Views\ClientInformationEF\Edit.cshtml" />
+    <Content Include="Views\ClientInformationEF\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

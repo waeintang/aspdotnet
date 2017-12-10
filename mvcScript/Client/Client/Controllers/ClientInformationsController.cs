@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Client.Models;
+using Client.ViewModels;
 
 namespace Client.Controllers
 {
@@ -118,6 +119,22 @@ namespace Client.Controllers
             db.ClientInformation.Remove(clientInformation);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult List()
+        {
+            var data = from p in db.ClientInformation
+                       select new ClientInformationListVM()
+                       {
+                           Id = p.Id,
+                           ClientId = p.ClientId,
+                           BankName = p.BankName,
+                           BankCode = p.BankCode,
+                           BranchBankCode = p.BranchBankCode,
+                           AccountName = p.AccountName,
+                           AccountNo = p.AccountNo,
+                      };
+            return View(data);
         }
 
         protected override void Dispose(bool disposing)

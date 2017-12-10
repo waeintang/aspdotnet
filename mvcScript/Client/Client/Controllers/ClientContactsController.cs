@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Client.Models;
+using Client.ViewModels;
 
 namespace Client.Controllers
 {
@@ -120,6 +121,19 @@ namespace Client.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult List()
+        {
+            var data = from p in db.ClientContact
+                       select new ClientContactListVM()
+                       {
+                           Occupation = p.Occupation,
+                           ClientName = p.ClientName,
+                           ClientEmail = p.ClientEmail,
+                           ClientMobile = p.ClientMobile,
+                           ClientPhone = p.ClientPhone
+                       };
+            return View(data);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

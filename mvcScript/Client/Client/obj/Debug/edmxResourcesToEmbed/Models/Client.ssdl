@@ -11,6 +11,7 @@
     <Property Name="ClientEmail" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="ClientMobile" Type="nvarchar" MaxLength="50" />
     <Property Name="ClientPhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="ClientData">
     <Key>
@@ -23,6 +24,7 @@
     <Property Name="Fax" Type="nvarchar" MaxLength="50" />
     <Property Name="ContactAddress" Type="nvarchar" MaxLength="100" />
     <Property Name="Email" Type="nvarchar" MaxLength="250" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="ClientInformation">
     <Key>
@@ -35,6 +37,7 @@
     <Property Name="BranchBankCode" Type="int" />
     <Property Name="AccountName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="AccountNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <!--產生期間發現錯誤:
 警告 6002: 資料表/檢視 'Client.dbo.ViewContact' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->

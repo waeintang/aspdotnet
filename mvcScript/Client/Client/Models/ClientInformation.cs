@@ -21,6 +21,7 @@ namespace Client.Models
         public Nullable<int> BranchBankCode { get; set; }
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual ClientData ClientData { get; set; }
     }
