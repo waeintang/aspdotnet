@@ -9,13 +9,11 @@ namespace Client.Controllers
 {
     public class ClientContactEFController : Controller
     {
-        private ClientEntities db = new ClientEntities();
-        // GET: ClientContactEF
+        ClientContactRepository repo = RepositoryHelper.GetClientContactRepository();
+
         public ActionResult Index()
         {
-            var data = from p in db.ClientContact
-                       where p.IsDeleted == false
-                       select p;
+            var data = repo.All().Where(p => p.IsDeleted == false);
 
             return View(data.Take(10));
         }
@@ -30,8 +28,8 @@ namespace Client.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ClientContact.Add(data);
-                db.SaveChanges();
+                repo.Add(data);
+                repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
@@ -41,7 +39,7 @@ namespace Client.Controllers
 
         public ActionResult Edit(int id)
         {
-            var item = db.ClientContact.Find(id);
+            var item = repo.Find(id);
             return View(item);
         }
 
@@ -50,13 +48,15 @@ namespace Client.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = db.ClientContact.Find(id);
+                var item = repo.Find(id);
+
 
                 item.ClientName = data.ClientName;
                 item.ClientPhone = data.ClientPhone;
                 item.ClientMobile = data.ClientMobile;
                 item.ClientEmail = data.ClientEmail;
-                db.SaveChanges();
+
+                repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
@@ -66,15 +66,16 @@ namespace Client.Controllers
 
         public ActionResult Details(int id)
         {
-            return View(db.ClientContact.Find(id));
+            return View(repo.Find(id));
         }
 
         public ActionResult Delete(int id)
         {
-            var item = db.ClientContact.Find(id);
+            var item = repo.Find(id);
 
             item.IsDeleted = true;
-            db.SaveChanges();
+
+            repo.UnitOfWork.Commit();
 
             return RedirectToAction("Index");
         }
