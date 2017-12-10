@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ClientModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClientContact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Occupation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClientEmail" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ClientMobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClientPhone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ClientData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EINNumber" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="ClientInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="BankName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BankCode" Type="int" Nullable="false" />
+          <Property Name="BranchBankCode" Type="int" />
+          <Property Name="AccountName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AccountNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'Client.dbo.ViewContact' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="ViewContact">
+          <Key>
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="ClientName" />
+          </Key>
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactNum" Type="int" />
+          <Property Name="InfoNum" Type="int" />
+        </EntityType>
+        <Association Name="FK_客戶銀行資訊_客戶資料">
+          <End Role="ClientData" Type="Self.ClientData" Multiplicity="1" />
+          <End Role="ClientInformation" Type="Self.ClientInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientInformation">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_客戶聯絡人_客戶資料">
+          <End Role="ClientData" Type="Self.ClientData" Multiplicity="1" />
+          <End Role="ClientContact" Type="Self.ClientContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientContact">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ClientModelStoreContainer">
+          <EntitySet Name="ClientContact" EntityType="Self.ClientContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientData" EntityType="Self.ClientData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientInformation" EntityType="Self.ClientInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewContact" EntityType="Self.ViewContact" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewContact].[ClientId] AS [ClientId], 
+    [ViewContact].[ClientName] AS [ClientName], 
+    [ViewContact].[ContactNum] AS [ContactNum], 
+    [ViewContact].[InfoNum] AS [InfoNum]
+    FROM [dbo].[ViewContact] AS [ViewContact]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_客戶銀行資訊_客戶資料" Association="Self.FK_客戶銀行資訊_客戶資料">
+            <End Role="ClientData" EntitySet="ClientData" />
+            <End Role="ClientInformation" EntitySet="ClientInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_客戶聯絡人_客戶資料" Association="Self.FK_客戶聯絡人_客戶資料">
+            <End Role="ClientData" EntitySet="ClientData" />
+            <End Role="ClientContact" EntitySet="ClientContact" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ClientModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClientContact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="Occupation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClientPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientContact" ToRole="ClientData" />
+        </EntityType>
+        <EntityType Name="ClientData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EINNumber" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientContact" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientData" ToRole="ClientContact" />
+          <NavigationProperty Name="ClientInformation" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientData" ToRole="ClientInformation" />
+        </EntityType>
+        <EntityType Name="ClientInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BankCode" Type="Int32" Nullable="false" />
+          <Property Name="BranchBankCode" Type="Int32" />
+          <Property Name="AccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientInformation" ToRole="ClientData" />
+        </EntityType>
+        <EntityType Name="ViewContact">
+          <Key>
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="ClientName" />
+          </Key>
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactNum" Type="Int32" />
+          <Property Name="InfoNum" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_客戶聯絡人_客戶資料">
+          <End Role="ClientData" Type="Self.ClientData" Multiplicity="1" />
+          <End Role="ClientContact" Type="Self.ClientContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientContact">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_客戶銀行資訊_客戶資料">
+          <End Role="ClientData" Type="Self.ClientData" Multiplicity="1" />
+          <End Role="ClientInformation" Type="Self.ClientInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientInformation">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ClientEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClientContact" EntityType="Self.ClientContact" />
+          <EntitySet Name="ClientData" EntityType="Self.ClientData" />
+          <EntitySet Name="ClientInformation" EntityType="Self.ClientInformation" />
+          <EntitySet Name="ViewContact" EntityType="Self.ViewContact" />
+          <AssociationSet Name="FK_客戶聯絡人_客戶資料" Association="Self.FK_客戶聯絡人_客戶資料">
+            <End Role="ClientData" EntitySet="ClientData" />
+            <End Role="ClientContact" EntitySet="ClientContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_客戶銀行資訊_客戶資料" Association="Self.FK_客戶銀行資訊_客戶資料">
+            <End Role="ClientData" EntitySet="ClientData" />
+            <End Role="ClientInformation" EntitySet="ClientInformation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ClientModelStoreContainer" CdmEntityContainer="ClientEntities">
+          <EntitySetMapping Name="ClientContact">
+            <EntityTypeMapping TypeName="ClientModel.ClientContact">
+              <MappingFragment StoreEntitySet="ClientContact">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="ClientEmail" ColumnName="ClientEmail" />
+                <ScalarProperty Name="ClientMobile" ColumnName="ClientMobile" />
+                <ScalarProperty Name="ClientPhone" ColumnName="ClientPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientData">
+            <EntityTypeMapping TypeName="ClientModel.ClientData">
+              <MappingFragment StoreEntitySet="ClientData">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="EINNumber" ColumnName="EINNumber" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="ContactAddress" ColumnName="ContactAddress" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientInformation">
+            <EntityTypeMapping TypeName="ClientModel.ClientInformation">
+              <MappingFragment StoreEntitySet="ClientInformation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="BankCode" ColumnName="BankCode" />
+                <ScalarProperty Name="BranchBankCode" ColumnName="BranchBankCode" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewContact">
+            <EntityTypeMapping TypeName="ClientModel.ViewContact">
+              <MappingFragment StoreEntitySet="ViewContact">
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
+                <ScalarProperty Name="InfoNum" ColumnName="InfoNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

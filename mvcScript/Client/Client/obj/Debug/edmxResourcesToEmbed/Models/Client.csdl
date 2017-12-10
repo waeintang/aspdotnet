@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ClientModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ClientContact">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientId" Type="Int32" Nullable="false" />
+    <Property Name="Occupation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClientEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClientMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ClientPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientContact" ToRole="ClientData" />
+  </EntityType>
+  <EntityType Name="ClientData">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EINNumber" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContactAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ClientContact" Relationship="Self.FK_客戶聯絡人_客戶資料" FromRole="ClientData" ToRole="ClientContact" />
+    <NavigationProperty Name="ClientInformation" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientData" ToRole="ClientInformation" />
+  </EntityType>
+  <EntityType Name="ClientInformation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientId" Type="Int32" Nullable="false" />
+    <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BankCode" Type="Int32" Nullable="false" />
+    <Property Name="BranchBankCode" Type="Int32" />
+    <Property Name="AccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="ClientData" Relationship="Self.FK_客戶銀行資訊_客戶資料" FromRole="ClientInformation" ToRole="ClientData" />
+  </EntityType>
+  <EntityType Name="ViewContact">
+    <Key>
+      <PropertyRef Name="ClientId" />
+      <PropertyRef Name="ClientName" />
+    </Key>
+    <Property Name="ClientId" Type="Int32" Nullable="false" />
+    <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContactNum" Type="Int32" />
+    <Property Name="InfoNum" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_客戶聯絡人_客戶資料">
+    <End Role="ClientData" Type="Self.ClientData" Multiplicity="1" />
+    <End Role="ClientContact" Type="Self.ClientContact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClientData">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClientContact">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_客戶銀行資訊_客戶資料">
+    <End Role="ClientData" Type="Self.ClientData" Multiplicity="1" />
+    <End Role="ClientInformation" Type="Self.ClientInformation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClientData">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClientInformation">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ClientEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ClientContact" EntityType="Self.ClientContact" />
+    <EntitySet Name="ClientData" EntityType="Self.ClientData" />
+    <EntitySet Name="ClientInformation" EntityType="Self.ClientInformation" />
+    <EntitySet Name="ViewContact" EntityType="Self.ViewContact" />
+    <AssociationSet Name="FK_客戶聯絡人_客戶資料" Association="Self.FK_客戶聯絡人_客戶資料">
+      <End Role="ClientData" EntitySet="ClientData" />
+      <End Role="ClientContact" EntitySet="ClientContact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_客戶銀行資訊_客戶資料" Association="Self.FK_客戶銀行資訊_客戶資料">
+      <End Role="ClientData" EntitySet="ClientData" />
+      <End Role="ClientInformation" EntitySet="ClientInformation" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
