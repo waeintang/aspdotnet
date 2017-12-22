@@ -26,5 +26,11 @@ namespace Client.Controllers
 
             return View();
         }
+
+        public ActionResult MetroIndex()
+        {
+          
+            return View();
+        }
     }
 }
